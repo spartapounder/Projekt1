@@ -1,52 +1,118 @@
 package simple;
 
-import java.util.Scanner;
+public class DiceThrower {
+	// 2 dice with face count of 6 each
+	private Die die1, die2;
 
-public class SimpleGame {
+	// TODO: Add fields.
+	// Fields:
+	// 1. The roll count.
+	// 2. The total of all face values rolled.
+	// 3. The count of face value 6.
+	// 4. The count of same face value on both dice.
+	// 5. The maximum sum of the face values in one roll.
+	// Remember to update fields, when the dice are rolled.
+	private int rollCount;
+	private int totalfaceValues;
+	private int count6;
+	private int pair;
+	private int maxSum;
+	private double average;
 
 	/**
-	 * Simulates playing one game of Simple.
+	 * Creates a TwoDice object.
 	 */
-	public void play() {
-		Scanner scanner = new Scanner(System.in);
-		DiceThrower thrower = new DiceThrower();
+	// TODO: Make a constructor that initialises all fields.
+	public DiceThrower() {
+		die1 = new Die(6);
+		die2 = new Die(6);
+		rollCount = 0;
+		totalfaceValues = 0;
+		count6 = 0;
+		pair = 0;
+		maxSum = 0;
+		average = 0;
+	}
 
-		boolean finished = false;
-		while (!finished) {
-			// TODO: Roll dice, print roll description.
-			thrower.roll();
-			System.out.println("You rolled " + thrower.rollDescription());
-			System.out.println("Roll again? (Y/n) ");
-			String answer = scanner.nextLine();
-			if (answer.equalsIgnoreCase("n")) {
-				finished = true;
-			}
+	// TODO: Add get methods for the fields.
+	public int gettotalfaceValues() {
+
+		return totalfaceValues;
+	}
+
+	public double getaverage() {
+		return average;
+	}
+
+	public int getcount6() {
+
+		return count6;
+	}
+
+	public int getmaxSum() {
+
+		return maxSum;
+	}
+
+	public int getpair() {
+
+		return pair;
+	}
+
+	public int getrollCount() {
+
+		return rollCount;
+	}
+
+	public int getdie1() {
+
+		return die1.getfaceValue();
+	}
+
+	public int getdie2() {
+
+		return die2.getfaceValue();
+	}
+
+	/**
+	 * Rolls the 2 dice.
+	 */
+	public void roll() {
+		// TODO: Roll the 2 dice.
+		die1.roll();
+		die2.roll();
+		rollCount++;
+		totalfaceValues += (die1.getfaceValue() + die2.getfaceValue());
+		if (die1.getfaceValue() == 6) {
+			count6++;
 		}
-		scanner.close();
+		if (die2.getfaceValue() == 6) {
+			count6++;
+		}
 
-		System.out.printf("\nResults:\n");
-		System.out.printf("---------\n");
-		// TODO: Print all the results:
-		// roll count, total of all face values, average sum in one roll,
-		// count of face value 6, count of same face value on both dice,
-		// max sum in one roll.
-		// Use the method: System.out.printf().
-		System.out.printf("roll count %d\n", thrower.getrollCount());
-		System.out.printf("total of all face values %d\n", thrower.gettotalfaceValues());
-		System.out.printf("average sum in one roll %.1f\n", thrower.getaverage());
-		System.out.printf("count of sixes %d\n", thrower.getcount6());
-		System.out.printf("count of pairs %d\n", thrower.getpair());
-		System.out.printf("max sum %d\n", thrower.getmaxSum());
+		if (die1.getfaceValue() == die2.getfaceValue()) {
+			pair++;
+		}
+		if (maxSum < (die1.getfaceValue() + die2.getfaceValue())) {
+			maxSum = (die1.getfaceValue() + die2.getfaceValue());
+		}
+		average = totalfaceValues / rollCount;
 	}
 
 	/**
-	 * Prints the rules of Simple.
+	 * Returns the sum of the face values in a roll.
 	 */
-	public void printRules() {
-		System.out.println("=====================================================");
-		System.out.println("Rules of Simple:");
-		System.out.println("The player throws the 2 dice as long as he/she wants.");
-		System.out.println("=====================================================");
+	public int sum() {
+		// TODO
+		return die1.getfaceValue() + die2.getfaceValue();
 	}
 
+	/**
+	 * Returns a textual description of the roll of the 2 dice. Example: Returns
+	 * "(4,5)" for a roll of 4 and 5.
+	 */
+	public String rollDescription() {
+		// TODO: Use the method: String.format().
+		return String.format("(%d,%d)", die1.getfaceValue(), die2.getfaceValue());
+	}
 }
