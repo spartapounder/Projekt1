@@ -1,0 +1,111 @@
+package craps;
+
+import java.util.Scanner;
+
+import simple.DiceThrower;
+
+public class CrapsGame {
+	private int i = 0;
+	private int gameswon = 0;
+	private int gameslost = 0;
+
+	/**
+	 * Simulates playing one game of craps.
+	 */
+	public void play() {
+		// TODO
+
+		DiceThrower dt = new DiceThrower();
+		Scanner scanner = new Scanner(System.in);
+
+		boolean finished = false;
+		while (!finished) {
+			dt.roll();
+			System.out.println("You rolled " + dt.sum());
+			if (dt.sum() == 7 || dt.sum() == 11) {
+				gameswon++;
+				printGameWon();
+
+			} else {
+				if (dt.sum() == 2 || dt.sum() == 3 || dt.sum() == 12) {
+					gameslost++;
+					printGameLost();
+
+				} else {
+					while (i < 100) {
+						int point = dt.sum();
+						dt.roll();
+						System.out.println("You rolled " + dt.sum());
+
+						if (dt.sum() == point) {
+							gameswon++;
+							printGameWon();
+
+							break;
+
+						}
+						if (dt.sum() == 7) {
+							gameslost++;
+							printGameLost();
+
+							break;
+
+						}
+					}
+
+				}
+			}
+			System.out.println("Roll again? (Y/n) ");
+			String answer = scanner.nextLine();
+			if (answer.equalsIgnoreCase("n")) {
+				finished = true;
+			}
+
+		}
+		printResulst();
+		scanner.close();
+	}
+
+	/**
+	 * Prints a 'You have won' message.
+	 */
+	public void printGameWon() {
+		System.out.printf("You have won\n");
+
+	}
+
+	public int getgameswon() {
+		return gameswon;
+	}
+
+	/**
+	 * Prints a 'You have lost' message.
+	 */
+	public void printGameLost() {
+		System.out.printf("You have lost\n");
+
+	}
+
+	public int getgameslost() {
+		return gameslost;
+	}
+
+	/**
+	 * Prints the rules of craps.
+	 */
+	public void printRules() {
+		System.out.printf(
+				"In the game a player throws 2 dice. The first throw is called 'the come out roll'. The player wins, if\n"
+						+ "the sum of the dice is 7 or 11. The player loses, if the sum is 2, 3 or 12. If the sum is something else\n"
+						+ "(that is, 4, 5, 6, 8, 9 or 10), the sum is set as the player's 'point'. The player will now continue\n"
+						+ "throwing the dice until he has lost or won. A sum equal his 'point' is a win, and a sum equal 7 is a\n"
+						+ "loss.\n" + "\n");
+	}
+
+	public void printResulst() {
+		System.out.printf("\nResults:\n");
+		System.out.printf("---------\n");
+		System.out.printf("You lost %d games\n", getgameslost());
+		System.out.printf("You won %d games\n", getgameswon());
+	}
+}
