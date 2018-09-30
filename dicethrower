@@ -1,4 +1,3 @@
-package simple;
 
 public class DiceThrower {
 	// 2 dice with face count of 6 each
